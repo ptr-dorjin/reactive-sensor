@@ -21,8 +21,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
 
-    runtimeOnly("io.r2dbc:r2dbc-postgresql")
-    runtimeOnly("org.postgresql:postgresql")
+    implementation("io.r2dbc:r2dbc-h2")
+    runtimeOnly("com.h2database:h2")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -35,8 +35,6 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
-    testRuntimeOnly("io.r2dbc:r2dbc-h2")
-    testRuntimeOnly("com.h2database:h2")
 }
 
 tasks.withType<KotlinCompile> {

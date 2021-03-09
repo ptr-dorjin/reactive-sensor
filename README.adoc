@@ -1,14 +1,14 @@
 = Fully Reactive sample project
 
-This is sample microservice that receives incoming sensor data streamed from IoT devices. The microservice can also stream this data out to its clients via exposed API.
+This is a sample microservice that receives incoming sensor data streamed from IoT devices. The microservice can also stream this data out to its clients via exposed API.
 
 Implemented with:
 
 - Spring Boot
-- Persistence: Spring Data R2DBC via r2dbc postgres driver *
+- Persistence: Spring Data R2DBC via r2dbc H2 driver *
 - Web: Spring WebFlux with Netty and Project Reactor under the hood
 - Protocol: RSocket via WebSockets
 - Kotlin coroutines
 
-NOTE: for sensors data, NoSQL DB is more suitable, but I'd like to use R2DBC in this project
+NOTE: for sensors data, one of NoSQL DBs is more suitable, but I'd like to use R2DBC in this project
 
