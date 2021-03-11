@@ -1,11 +1,11 @@
-package pd.reactive.sensor
+package pd.reactive.sensor.server
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SensorApplication
+class SensorServerApplication
 
 fun main(args: Array<String>) {
-    runApplication<SensorApplication>(*args)
+    runApplication<SensorServerApplication>(*args)
 }

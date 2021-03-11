@@ -1,12 +1,12 @@
-package pd.reactive.sensor.service
+package pd.reactive.sensor.server.service
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.springframework.stereotype.Service
-import pd.reactive.sensor.repository.SensorData
-import pd.reactive.sensor.repository.SensorDataRepository
+import pd.reactive.sensor.server.repository.SensorData
+import pd.reactive.sensor.server.repository.SensorDataRepository
 import java.time.Instant
 
 @Service

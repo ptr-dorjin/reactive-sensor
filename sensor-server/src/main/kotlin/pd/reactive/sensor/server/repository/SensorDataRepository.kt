@@ -1,4 +1,4 @@
-package pd.reactive.sensor.repository
+package pd.reactive.sensor.server.repository
 
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.r2dbc.repository.Query

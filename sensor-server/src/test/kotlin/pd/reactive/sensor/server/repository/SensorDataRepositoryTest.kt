@@ -1,4 +1,4 @@
-package pd.reactive.sensor.repository
+package pd.reactive.sensor.server.repository
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

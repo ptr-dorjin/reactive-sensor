@@ -1,4 +1,4 @@
-package pd.reactive.sensor.repository
+package pd.reactive.sensor.server.repository
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table

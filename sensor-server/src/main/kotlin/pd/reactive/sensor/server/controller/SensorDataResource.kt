@@ -1,4 +1,4 @@
-package pd.reactive.sensor.controller
+package pd.reactive.sensor.server.controller
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.onStart
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Controller
-import pd.reactive.sensor.repository.SensorData
-import pd.reactive.sensor.service.SensorDataService
+import pd.reactive.sensor.server.repository.SensorData
+import pd.reactive.sensor.server.service.SensorDataService
 
 @Controller
 @MessageMapping("api.v1.sensorData")
