@@ -10,15 +10,15 @@ import pd.reactive.sensor.server.repository.SensorData
 import pd.reactive.sensor.server.service.SensorDataService
 
 @Controller
-@MessageMapping("api.v1.sensorData")
+@MessageMapping("api.v1.sensors")
 class SensorDataResource(val sensorDataService: SensorDataService) {
 
     @MessageMapping("stream")
     suspend fun receive(@Payload inboundData: Flow<SensorData>) =
-        sensorDataService.save(inboundData)
+        sensorDataService.post(inboundData)
 
     @MessageMapping("stream")
-    suspend fun send(): Flow<SensorData> = sensorDataService
+    fun send(): Flow<SensorData> = sensorDataService
         .stream()
         .onStart {
             emitAll(sensorDataService.latest())

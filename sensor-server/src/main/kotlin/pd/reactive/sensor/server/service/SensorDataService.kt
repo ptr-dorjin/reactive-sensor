@@ -19,11 +19,11 @@ class SensorDataService(val sensorDataRepository: SensorDataRepository) {
     fun latest(): Flow<SensorData> =
         sensorDataRepository.findLatest()
 
-    fun after(instant: Instant): Flow<SensorData> =
-        sensorDataRepository.findLatest(instant)
+    fun after(since: Instant): Flow<SensorData> =
+        sensorDataRepository.findLatest(since)
 
-    suspend fun save(dataFlow: Flow<SensorData>) =
-        dataFlow
+    suspend fun post(sensorData: Flow<SensorData>) =
+        sensorData
             .onEach(sender::emit)
             .let { sensorDataRepository.saveAll(it) }
             .collect()

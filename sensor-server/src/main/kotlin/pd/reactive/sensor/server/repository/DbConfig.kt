@@ -25,7 +25,7 @@ class DbConfig {
     fun initializer(sensorConnectionFactory: ConnectionFactory): ConnectionFactoryInitializer {
         val initializer = ConnectionFactoryInitializer()
         initializer.setConnectionFactory(sensorConnectionFactory)
-        val populator = ResourceDatabasePopulator(ClassPathResource("schema.sql"))
+        val populator = ResourceDatabasePopulator(ClassPathResource("sql/schema.sql"))
         initializer.setDatabasePopulator(populator)
         return initializer
     }
