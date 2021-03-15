@@ -1,0 +1,22 @@
+= Fully Reactive sample project
+
+This is a sample project that uses fully reactive approach. The project consists of 3 parts:
+
+- `reactive-server` is a microservice that
+    * receives an inbound stream of sensor data from IoT devices (see `reactive-device`)
+    * sends an outbound steam of the sensor data to other clients (see `reactive-web`)
+- `reactive-device` is a mini-module that emulates an IoT device and sends data to the server
+- `reactive-web` is a web app that consumes data from the server and displays it on UI
+
+
+Frameworks/technologies used:
+
+- Spring Boot
+- Spring WebFlux with Netty and Project Reactor under the hood
+- Persistence: Spring Data R2DBC via r2dbc H2 driver *
+- Protocol: RSocket via WebSockets
+- Kotlin coroutines
+- Gradle
+
+NOTE: * for sensors data, one of NoSQL DBs is more suitable, but I'd like to use R2DBC in this project
+

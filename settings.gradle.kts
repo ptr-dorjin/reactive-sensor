@@ -1,3 +1,5 @@
 rootProject.name = "reactive-sensor"
 
-include("sensor-server")
+include("common")
+include("reactive-server")
+include("reactive-device")
