@@ -14,6 +14,11 @@ Implemented with:
 - Persistence: Spring Data R2DBC via r2dbc H2 driver *
 - Protocol: RSocket via WebSockets
 - Kotlin coroutines
+- Spring Actuator
 
 NOTE: for sensors data, one of NoSQL DBs is more suitable, but I'd like to use R2DBC in this project
 
+
+== Spring Actuator
+
+This module exposes an Actuator endpoint: http://localhost:8080/actuator/metrics/sensor.inbound.count

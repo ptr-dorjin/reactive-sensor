@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component
 import pd.sensor.domain.SensorData
 import java.net.URI
 import java.time.Instant
-import javax.annotation.PostConstruct
 
 @Component
 class SensorDataSender(
@@ -19,7 +18,7 @@ class SensorDataSender(
     private val serverProperties: ServerProperties
 ) {
 
-    @PostConstruct
+    @Scheduled(fixedDelay = 1000)
     fun send() {
         runBlocking {
             val rSocketRequester = rsocketBuilder.websocket(URI(serverProperties.url))

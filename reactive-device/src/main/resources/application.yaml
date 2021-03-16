@@ -1,0 +1,4 @@
+# run `./gradlew kaptKotlin` to apply the changes in custom property names
+sensor:
+  server:
+    url: ws://localhost:7000/rsocket
