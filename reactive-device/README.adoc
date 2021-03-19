@@ -1,0 +1,19 @@
+= reactive-device
+
+This is an IoT device part of this project.
+
+`reactive-device` module emulates a device.
+It's a simple app that sends a sensor data to `reactive-server` every second.
+
+Implemented with:
+
+- Spring Boot
+- Protocol: RSocket via WebSockets
+- Kotlin coroutines
+
+
+== Deployment
+
+    java -jar build/libs/reactive-device-VERSION.jar
+
+It is safe to deploy several instances of `reactive-device` on one host.

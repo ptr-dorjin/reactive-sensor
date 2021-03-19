@@ -2,3 +2,5 @@
 sensor:
   server:
     url: ws://localhost:7000/rsocket
+  device:
+    interval: 1000

@@ -18,7 +18,12 @@ Implemented with:
 
 NOTE: for sensors data, one of NoSQL DBs is more suitable, but I'd like to use R2DBC in this project
 
+== Deployment
+
+    java -jar reactive-server/build/libs/reactive-server-VERSION.jar
 
 == Spring Actuator
 
-This module exposes an Actuator endpoint: http://localhost:8080/actuator/metrics/sensor.inbound.count
+This module exposes an Actuator endpoint, which shows the number of messages received:
+
+    curl http://localhost:8080/actuator/metrics/sensor.inbound.count
