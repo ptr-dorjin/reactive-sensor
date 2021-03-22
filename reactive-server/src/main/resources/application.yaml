@@ -1,8 +1,7 @@
-#logging:
-#  level:
-#    #org.springframework: debug
-#    # prints out all executed SQL statements
-#    org.springframework.r2dbc: debug
+logging:
+  level:
+    # prints out all executed SQL statements
+    org.springframework.r2dbc: debug
 
 spring:
   rsocket:

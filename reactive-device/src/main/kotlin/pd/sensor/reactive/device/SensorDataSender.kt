@@ -31,7 +31,7 @@ class SensorDataSender(
                     emit(SensorData(31, "balcony", Instant.now()))
                 })
                 .retrieveFlow<Void>()
-                .catch { /*log.error("Couldn't send data to the server", it)*/ }
+                .catch { log.debug("Couldn't send data to the server", it) }
                 .collect()
         }
     }
