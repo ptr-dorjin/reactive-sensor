@@ -12,7 +12,7 @@ Implemented with:
 - Kotlin coroutines
 
 
-== Deployment
+== Run on local machine
 
     java -jar build/libs/reactive-device-VERSION.jar
 

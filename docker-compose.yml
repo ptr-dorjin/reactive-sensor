@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  server:
+    build: reactive-server
+    ports:
+      - "8080:8080"
+  device-1:
+    build: reactive-device
+    environment:
+      - SENSOR_DEVICE_NAME=room
+      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
+  device-2:
+    build: reactive-device
+    environment:
+      - SENSOR_DEVICE_NAME=backyard
+      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
+  device-3:
+    build: reactive-device
+    environment:
+      - SENSOR_DEVICE_NAME=garage
+      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
