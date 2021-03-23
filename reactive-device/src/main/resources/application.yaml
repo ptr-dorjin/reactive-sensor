@@ -3,4 +3,5 @@ sensor:
   server:
     url: ws://localhost:7000/rsocket
   device:
+    location: ${SENSOR_DEVICE_NAME}
     interval: 1000

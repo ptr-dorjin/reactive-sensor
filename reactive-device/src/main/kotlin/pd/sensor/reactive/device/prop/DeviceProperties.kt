@@ -5,4 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties("sensor.device")
-data class DeviceProperties(val interval: Int)
+data class DeviceProperties(
+    val location: String,
+    val interval: Int
+)

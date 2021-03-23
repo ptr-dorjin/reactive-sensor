@@ -9,17 +9,26 @@ import org.springframework.messaging.rsocket.retrieveFlow
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import pd.sensor.domain.SensorData
+import pd.sensor.reactive.device.prop.DeviceProperties
 import pd.sensor.reactive.device.prop.ServerProperties
 import java.net.URI
 import java.time.Instant
+import kotlin.random.Random
 
 @Component
 class SensorDataSender(
     private val rsocketBuilder: RSocketRequester.Builder,
-    private val serverProperties: ServerProperties
+    private val serverProperties: ServerProperties,
+    deviceProperties: DeviceProperties
 ) {
-
     private val log = LoggerFactory.getLogger(SensorDataSender::class.java)
+
+    private var location = deviceProperties.location
+    init {
+        if (location.isBlank()) {
+            location = "device-" + Random.nextInt(1000)
+        }
+    }
 
     @Scheduled(fixedDelayString = "\${sensor.device.interval:5000}")
     fun send() {
@@ -28,7 +37,8 @@ class SensorDataSender(
 
             rSocketRequester.route("api.v1.sensors.stream")
                 .dataWithType(flow {
-                    emit(SensorData(31, "balcony", Instant.now()))
+                    // todo random temperature
+                    emit(SensorData(31, location, Instant.now()))
                 })
                 .retrieveFlow<Void>()
                 .catch { log.debug("Couldn't send data to the server", it) }
