@@ -4,5 +4,5 @@ sensor:
     host: ${SENSOR_SERVER_HOST:localhost}
     port: ${SENSOR_SERVER_PORT:7000}
   device:
-    location: ${SENSOR_DEVICE_NAME}
+    location: ${SENSOR_DEVICE_NAME:}
     interval: ${SENSOR_DEVICE_INTERVAL:5000}

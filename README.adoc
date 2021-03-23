@@ -25,3 +25,40 @@ NOTE: * for sensors data, one of NoSQL DBs is more suitable, but I'd like to use
 == Build
 
     ./gradlew build
+
+== Run on local machine
+
+. Start the server:
+
+    java -jar reactive-server/build/libs/reactive-server-VERSION.jar
+
+- All jars are executable thanks to Spring Boot.
+- By default, `reactive-server` will start Netty RSocket on port 7000.
+- It also exposes Spring Actuator on port 8080.
+
+. Then start several instances of `reactive-device` in different terminals:
+
+    java -jar reactive-device/build/libs/reactive-device-VERSION.jar
++
+It's safe to run several instances of `reactive-device` on one host, as they are not exposing any ports.
+
+. Monitor Spring Actuator from another terminal. The value should increase over time:
+
+    curl http://localhost:8080/actuator/metrics/sensor.inbound.count
+
+== Run in Docker with Docker Compose
+
+. Alternatively, run with Docker Compose:
+
+    docker-compose build
+    docker-compose up
+
+- This will start 1 container with `reactive-server`
+- Plus 3 containers with `reactive-device`
+- All 4 containers are in one Docker network
+- Exposes Spring Actuator in `reactive-server` on port 8080, so it is accessible from the host.
+- For details, see `docker-compose.yml`.
+
+. Monitor Spring Actuator from another terminal. The value should increase over time:
+
+    curl http://localhost:8080/actuator/metrics/sensor.inbound.count
