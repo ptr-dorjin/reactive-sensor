@@ -5,4 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties("sensor.server")
-data class ServerProperties(val url: String)
+data class ServerProperties(
+    val host: String,
+    val port: Int
+)

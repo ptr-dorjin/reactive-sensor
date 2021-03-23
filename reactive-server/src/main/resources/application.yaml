@@ -1,12 +1,12 @@
-logging:
-  level:
+#logging:
+#  level:
     # prints out all executed SQL statements
-    org.springframework.r2dbc: debug
+    #org.springframework.r2dbc: debug
 
 spring:
   rsocket:
     server:
-      port: 7000
+      port: ${SENSOR_SERVER_PORT:7000}
       transport: websocket
       mapping-path: /rsocket
 

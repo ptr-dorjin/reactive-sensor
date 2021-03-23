@@ -1,21 +1,37 @@
 version: "3.9"
 services:
-  server:
+  sensor-server:
     build: reactive-server
     ports:
       - "8080:8080"
+    environment:
+      - SENSOR_SERVER_PORT=7000
+#      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
+
   device-1:
     build: reactive-device
+    depends_on:
+      - sensor-server
     environment:
+      - SENSOR_SERVER_HOST=sensor-server
+      - SENSOR_SERVER_PORT=7000
       - SENSOR_DEVICE_NAME=room
-      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
+#      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
   device-2:
     build: reactive-device
+    depends_on:
+      - sensor-server
     environment:
+      - SENSOR_SERVER_HOST=sensor-server
+      - SENSOR_SERVER_PORT=7000
       - SENSOR_DEVICE_NAME=backyard
-      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
+#      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
   device-3:
     build: reactive-device
+    depends_on:
+      - sensor-server
     environment:
+      - SENSOR_SERVER_HOST=sensor-server
+      - SENSOR_SERVER_PORT=7000
       - SENSOR_DEVICE_NAME=garage
-      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
+#      - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug

@@ -1,7 +1,8 @@
 # run `./gradlew kaptKotlin` to apply the changes in custom property names
 sensor:
   server:
-    url: ws://localhost:7000/rsocket
+    host: ${SENSOR_SERVER_HOST:localhost}
+    port: ${SENSOR_SERVER_PORT:7000}
   device:
     location: ${SENSOR_DEVICE_NAME}
-    interval: 1000
+    interval: ${SENSOR_DEVICE_INTERVAL:5000}

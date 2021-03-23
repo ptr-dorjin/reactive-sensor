@@ -18,22 +18,24 @@ import kotlin.random.Random
 @Component
 class SensorDataSender(
     private val rsocketBuilder: RSocketRequester.Builder,
-    private val serverProperties: ServerProperties,
+    serverProperties: ServerProperties,
     deviceProperties: DeviceProperties
 ) {
     private val log = LoggerFactory.getLogger(SensorDataSender::class.java)
 
+    private val serverUrl = "ws://${serverProperties.host}:${serverProperties.port}/rsocket"
     private var location = deviceProperties.location
     init {
         if (location.isBlank()) {
             location = "device-" + Random.nextInt(1000)
         }
+        log.info("Connecting to $serverUrl from $location")
     }
 
     @Scheduled(fixedDelayString = "\${sensor.device.interval:5000}")
     fun send() {
         runBlocking {
-            val rSocketRequester = rsocketBuilder.websocket(URI(serverProperties.url))
+            val rSocketRequester = rsocketBuilder.websocket(URI(serverUrl))
 
             rSocketRequester.route("api.v1.sensors.stream")
                 .dataWithType(flow {

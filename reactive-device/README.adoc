@@ -3,7 +3,7 @@
 This is an IoT device part of this project.
 
 `reactive-device` module emulates a device.
-It's a simple app that sends a sensor data to `reactive-server` every second.
+It's a simple app that sends a sensor data to `reactive-server` every N seconds.
 
 Implemented with:
 
@@ -11,9 +11,26 @@ Implemented with:
 - Protocol: RSocket via WebSockets
 - Kotlin coroutines
 
+== Configuration
+
+Env. variables:
+
+- `SENSOR_SERVER_HOST` is the host of `reactive-server`.
+Default is localhost.
+- `SENSOR_SERVER_PORT` is the port of `reactive-server`.
+Default is 7000.
+- `SENSOR_DEVICE_NAME` is the name of this device.
+Make them different for each deployed `reactive-device`.
+Default is "device-$randomInteger".
+- `SENSOR_DEVICE_INTERVAL` is the interval in millis in which this `reactive-device` sends data to `reactive-server`.
+Default is 5000.
 
 == Run on local machine
 
     java -jar build/libs/reactive-device-VERSION.jar
 
 It is safe to deploy several instances of `reactive-device` on one host.
+
+== Run in Docker container
+
+see `docker-compose.yml` in the parent directory

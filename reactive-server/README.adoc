@@ -18,9 +18,20 @@ Implemented with:
 
 NOTE: for sensors data, one of NoSQL DBs is more suitable, but I'd like to use R2DBC in this project
 
+== Configuration
+
+Env. variables:
+
+- `SENSOR_SERVER_PORT` is the port of `reactive-server`.
+Default is 7000.
+
 == Run on local machine
 
     java -jar reactive-server/build/libs/reactive-server-VERSION.jar
+
+== Run in Docker container
+
+see `docker-compose.yml` in the parent directory
 
 == Spring Actuator
 

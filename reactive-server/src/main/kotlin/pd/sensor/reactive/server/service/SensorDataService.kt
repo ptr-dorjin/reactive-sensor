@@ -2,6 +2,7 @@ package pd.sensor.reactive.server.service
 
 import io.micrometer.core.instrument.MeterRegistry
 import kotlinx.coroutines.flow.*
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import pd.sensor.domain.SensorData
 import pd.sensor.reactive.server.repository.SensorDataRepository
@@ -12,7 +13,7 @@ class SensorDataService(
     val sensorDataRepository: SensorDataRepository,
     meterRegistry: MeterRegistry
 ) {
-
+    private val log = LoggerFactory.getLogger(SensorDataService::class.java)
     private var inboundCounter = meterRegistry.counter("sensor.inbound.count")
 
     private val sender: MutableSharedFlow<SensorData> = MutableSharedFlow()
@@ -29,6 +30,7 @@ class SensorDataService(
         inboundFlow
             .onEach {
                 inboundCounter.increment()
+                log.debug("Received $it")
                 sender.emit(it)
             }
             .map { it.toEntity() }
