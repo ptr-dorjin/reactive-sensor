@@ -8,7 +8,7 @@ It's a simple app that sends a sensor data to `reactive-server` every N seconds.
 Implemented with:
 
 - Spring Boot
-- Protocol: RSocket via WebSockets
+- Protocol: RSocket over WebSockets
 - Kotlin coroutines
 
 == Configuration

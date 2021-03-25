@@ -12,7 +12,7 @@ Implemented with:
 - Spring Boot
 - Spring WebFlux with Netty and Project Reactor under the hood
 - Persistence: Spring Data R2DBC via r2dbc H2 driver *
-- Protocol: RSocket via WebSockets
+- Protocol: RSocket over WebSockets
 - Kotlin coroutines
 - Spring Actuator
 
@@ -37,7 +37,7 @@ see `docker-compose.yml` in the parent directory
 
 This module exposes an Actuator endpoint, which shows the number of messages received from devices:
 
-    curl http://localhost:8080/actuator/metrics/sensor.inbound.count
+    curl http://localhost:8001/actuator/metrics/sensor.inbound.count
 
 example output:
 

@@ -15,7 +15,7 @@ Frameworks/technologies used:
 - Spring Boot
 - Spring WebFlux with Netty and Project Reactor under the hood
 - Persistence: Spring Data R2DBC via r2dbc H2 driver *
-- Protocol: RSocket via WebSockets
+- Protocol: RSocket over WebSockets
 - Kotlin coroutines
 - Gradle
 
@@ -44,7 +44,7 @@ It's safe to run several instances of `reactive-device` on one host, as they are
 
 . Monitor Spring Actuator from another terminal. The value should increase over time:
 
-    curl http://localhost:8080/actuator/metrics/sensor.inbound.count
+    curl http://localhost:8001/actuator/metrics/sensor.inbound.count
 
 == Run in Docker with Docker Compose
 
@@ -61,4 +61,4 @@ It's safe to run several instances of `reactive-device` on one host, as they are
 
 . Monitor Spring Actuator from another terminal. The value should increase over time:
 
-    curl http://localhost:8080/actuator/metrics/sensor.inbound.count
+    curl http://localhost:8001/actuator/metrics/sensor.inbound.count
