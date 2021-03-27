@@ -45,9 +45,9 @@ class SensorServerApplicationTests(
             val twoSecondBeforeNow = now.minusSeconds(2)
             sensorDataRepository.saveAll(
                 listOf(
-                    SensorDataEntity(21, "room", twoSecondBeforeNow),
-                    SensorDataEntity(20, "room", secondBeforeNow),
-                    SensorDataEntity(19, "room", now)
+                    SensorDataEntity(21.2, "room", twoSecondBeforeNow),
+                    SensorDataEntity(20.6, "room", secondBeforeNow),
+                    SensorDataEntity(19.3, "room", now)
                 )
             ).toList()
         }
@@ -70,7 +70,7 @@ class SensorServerApplicationTests(
 
                 rSocketRequester.route("api.v1.sensors.stream")
                     .dataWithType(flow {
-                        emit(SensorData(18, "garage", now.plusSeconds(1)))
+                        emit(SensorData(18.1, "garage", now.plusSeconds(1)))
                     })
                     .retrieveFlow<Void>()
                     .collect()
@@ -82,7 +82,7 @@ class SensorServerApplicationTests(
                 .first { it.location == "garage" }
                 .apply {
                     assertThat(this.testVersion())
-                        .isEqualTo(SensorDataEntity(18, "garage", now.plusSeconds(1).noMillis()))
+                        .isEqualTo(SensorDataEntity(18.1, "garage", now.plusSeconds(1).noMillis()))
                 }
         }
     }
@@ -99,25 +99,25 @@ class SensorServerApplicationTests(
                 .retrieveFlow<SensorData>()
                 .test {
                     assertThat(expectItem().testVersion())
-                        .isEqualTo(SensorData(21, "room", now.minusSeconds(2).noMillis()))
+                        .isEqualTo(SensorData(21.2, "room", now.minusSeconds(2).noMillis()))
                     assertThat(expectItem().testVersion())
-                        .isEqualTo(SensorData(20, "room", now.minusSeconds(1).noMillis()))
+                        .isEqualTo(SensorData(20.6, "room", now.minusSeconds(1).noMillis()))
                     assertThat(expectItem().testVersion())
-                        .isEqualTo(SensorData(19, "room", now.noMillis()))
+                        .isEqualTo(SensorData(19.3, "room", now.noMillis()))
 
                     expectNoEvents()
 
                     launch {
                         rSocketRequester.route("api.v1.sensors.stream")
                             .dataWithType(flow {
-                                emit(SensorData(11, "backyard", now.plusSeconds(1)))
+                                emit(SensorData(11.22, "backyard", now.plusSeconds(1)))
                             })
                             .retrieveFlow<Void>()
                             .collect()
                     }
 
                     assertThat(expectItem().testVersion())
-                        .isEqualTo(SensorData(11, "backyard", now.plusSeconds(1).noMillis()))
+                        .isEqualTo(SensorData(11.22, "backyard", now.plusSeconds(1).noMillis()))
 
                     cancelAndIgnoreRemainingEvents()
                 }

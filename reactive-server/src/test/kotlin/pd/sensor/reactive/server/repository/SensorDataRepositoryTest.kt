@@ -49,7 +49,7 @@ class SensorDataRepositoryTest @Autowired constructor(
     fun `When findLatest then return SensorData`() {
         runBlocking {
             val expected = sensorDataRepository.save(
-                SensorDataEntity(15, "room", now)
+                SensorDataEntity(15.6, "room", now)
             )
 
             sensorDataRepository.findLatest()
@@ -68,17 +68,17 @@ class SensorDataRepositoryTest @Autowired constructor(
         runBlocking {
             sensorDataRepository.saveAll(
                 listOf(
-                    SensorDataEntity(5, "garage", now.minusSeconds(1)),
-                    SensorDataEntity(6, "garage", now)
+                    SensorDataEntity(5.78, "garage", now.minusSeconds(1)),
+                    SensorDataEntity(6.89, "garage", now)
                 )
             ).toList()
 
             sensorDataRepository.findLatest()
                 .test {
                     assertThat(expectItem().testVersion())
-                        .isEqualTo(SensorDataEntity(5, "garage", now.minusSeconds(1).noMillis()))
+                        .isEqualTo(SensorDataEntity(5.78, "garage", now.minusSeconds(1).noMillis()))
                     assertThat(expectItem().testVersion())
-                        .isEqualTo(SensorDataEntity(6, "garage", now.noMillis()))
+                        .isEqualTo(SensorDataEntity(6.89, "garage", now.noMillis()))
 
                     expectComplete()
                 }

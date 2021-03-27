@@ -6,7 +6,7 @@ import java.time.Instant
 
 @Table("sensor_data")
 data class SensorDataEntity(
-    val temperature: Int,
+    val temperature: Double,
     val location: String,
     val instant: Instant,
     @Id var id: String? = null
