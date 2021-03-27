@@ -1,0 +1,21 @@
+= reactive-web
+
+`reactive-web` streams data from `reactive-server` using RSocket over WebSockets and displays the sensor data in a chart
+
+It's implemented using:
+
+- React for UI
+- Typescript as a source code language
+- RSocket Websocket JS client library
+- Yarn
+
+== Build
+
+. Install npm and yarn globally, if not yet
+
+    sudo apt install npm
+    sudo npm install -g yarn
+
+. Build
+
+    yarn build
