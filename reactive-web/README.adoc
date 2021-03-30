@@ -7,6 +7,7 @@ It's implemented using:
 - React for UI
 - Typescript as a source code language
 - RSocket Websocket JS client library
+- Chart.js
 - Yarn
 
 == Build
