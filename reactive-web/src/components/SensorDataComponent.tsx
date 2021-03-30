@@ -1,15 +1,22 @@
 import React from 'react';
 import SensorData from "../domain/SensorData";
 import MessageService from "../services/MessageService";
+import TemperatureChart from "./TemperatureChart";
 
 interface IProps {
 }
 
 interface IState {
     connected: boolean
-    error: any
-    sensorDataMap: Map<string, SensorData[]>
+    error: any,
+    locations: Set<string>,
+    // Used for Chart.js labels
+    chartLabels: string[],
+    // Chart.js limitation: size of data inside of each dataset should be = size of labels array
+    chartDatasets: any[]
 }
+
+const LIMIT_TIME_STAMPS = 100
 
 class SensorDataComponent extends React.Component<IProps, IState> {
     service: MessageService;
@@ -19,7 +26,9 @@ class SensorDataComponent extends React.Component<IProps, IState> {
         this.state = {
             connected: false,
             error: null,
-            sensorDataMap: new Map<string, SensorData[]>()
+            locations: new Set(),
+            chartLabels: [],
+            chartDatasets: [],
         }
         this.service = new MessageService(
             this.handleConnection.bind(this),
@@ -42,16 +51,53 @@ class SensorDataComponent extends React.Component<IProps, IState> {
             });
         } else {
             sensorData.instant = new Date(sensorData.instant)
-            console.log(sensorData)
-
-            const location = sensorData.location;
-            const sensorDataMap = this.state.sensorDataMap;
-            sensorDataMap.set(location, [...sensorDataMap.get(location) || [], sensorData]);
-
-            this.setState({
-                sensorDataMap: sensorDataMap
-            });
+            console.log("Received", sensorData)
+            this.appendToState(sensorData)
         }
+    }
+
+    private static getRandomColor() {
+        let rgb = [];
+        for (let i = 0; i < 3; i++) {
+            rgb.push(Math.round(Math.random() * 255));
+        }
+        let [r, g, b] = rgb;
+        return `rgba(${r}, ${g}, ${b}, 0.2)`;
+    }
+
+    public appendToState(sensorData: SensorData) {
+        const location = sensorData.location;
+        const locations = this.state.locations;
+        const labels = this.state.chartLabels;
+        const datasets: any[] = this.state.chartDatasets;
+
+        if (!locations.has(location)) {
+            // new location that we haven't seen before: populate old timestamps with null to maintain the size of arrays
+            let newLocationData = Array<number | null>();
+            locations.add(location)
+            labels.forEach(() => newLocationData.push(null))
+            datasets.push({
+                label: location,
+                data: newLocationData,
+                spanGaps: true,
+                fill: false,
+                borderColor: SensorDataComponent.getRandomColor()
+            })
+        }
+
+        labels.push(sensorData.instant.toLocaleTimeString())
+        datasets.forEach(dataset => {
+            if (dataset.label === location)
+                dataset.data.push(sensorData.temperature)
+            else dataset.data.push(null)
+            dataset.data = dataset.data.slice(-LIMIT_TIME_STAMPS)
+        })
+
+        this.setState({
+            locations: locations,
+            chartLabels: labels.slice(-LIMIT_TIME_STAMPS),
+            chartDatasets: datasets.slice(-LIMIT_TIME_STAMPS),
+        })
     }
 
     componentDidMount() {
@@ -65,17 +111,7 @@ class SensorDataComponent extends React.Component<IProps, IState> {
     render() {
         return (
             <div className="row">
-                {Array.from(this.state.sensorDataMap.keys()).map(location =>
-                    <div className="col-sm" key={location}>
-                        <h3>{location}</h3>
-                        {(this.state.sensorDataMap.get(location) || []).map(sensorData => {
-                            const key = location + sensorData.instant.toString()
-                            return <div key={key}>
-                                {sensorData.location} {sensorData.instant.toString()} {sensorData.temperature} C
-                            </div>
-                        })}
-                    </div>
-                )}
+                <TemperatureChart labels={this.state.chartLabels} datasets={this.state.chartDatasets}/>
             </div>
         );
     }
