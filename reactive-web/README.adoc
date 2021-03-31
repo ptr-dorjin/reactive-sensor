@@ -4,6 +4,7 @@
 
 It's implemented using:
 
+- create-react-app
 - React for UI
 - Typescript as a source code language
 - RSocket Websocket JS client library
@@ -24,3 +25,9 @@ It's implemented using:
 == Run locally
 
     yarn start
+
+Then open http://localhost:3000
+
+== Notes
+
+I tried to use `RSocketResumableTransport` instead of low level `RSocketWebSocketClient`, but it's not that easy to make it work. This means that if the `reactive-server` gets restarted, then you have to refresh the browser page manually.
