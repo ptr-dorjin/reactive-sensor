@@ -37,7 +37,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
-    testImplementation("app.cash.turbine:turbine:0.3.0")
+    testImplementation("app.cash.turbine:turbine:0.4.1")
 }
 
 tasks.withType<KotlinCompile> {
