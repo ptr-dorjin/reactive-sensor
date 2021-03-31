@@ -20,3 +20,7 @@ It's implemented using:
 . Build
 
     yarn build
+
+== Run locally
+
+    yarn start
