@@ -14,7 +14,7 @@ image::docs/images/reactive-sensor-diagram.png[]
 Frameworks/technologies used:
 
 - Spring Boot
-    * For the JVM backend. I'm using purely Kotlin in this project.
+    * For the JVM backend. I'm using Kotlin in this project.
 - Spring WebFlux with Netty and Project Reactor under the hood
     * Netty is a non-blocking network application framework
     * Project Reactor is a reactive library that conforms with Reactive Streams specification. Project Reactor is based on Netty.
