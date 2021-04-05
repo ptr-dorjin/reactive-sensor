@@ -10,14 +10,22 @@ import RSocketWebSocketClient from 'rsocket-websocket-client';
 import {ReactiveSocket} from "rsocket-types";
 import {Payload} from "rsocket-types/ReactiveSocketTypes";
 
+let RSOCKET_PORT = (window as any)._env_?.SENSOR_SERVER_PORT
+if (!RSOCKET_PORT) {
+    RSOCKET_PORT = "7000"
+    console.log("Defaulting to port", RSOCKET_PORT)
+}
+const RSOCKET_URL = `ws://${window.location.hostname}:${RSOCKET_PORT}/rsocket`;
+console.log("Connecting via RSocket to", RSOCKET_URL)
+
 const endpoint = "api.v1.sensors.stream";
 
 export default class MessageService {
     client: RSocketClient<any, any>
-    connectCallback: Function
-    messageCallback: Function
+    onConnect: Function
+    onNextSensorData: Function
 
-    constructor(connectCallback: Function, messageCallback: Function) {
+    constructor(onConnect: Function, onNextSensorData: Function) {
         this.client = new RSocketClient({
             setup: {
                 keepAlive: 5000,
@@ -26,12 +34,12 @@ export default class MessageService {
                 metadataMimeType: MESSAGE_RSOCKET_COMPOSITE_METADATA.string,
             },
             transport: new RSocketWebSocketClient({
-                    url: `ws://localhost:7000/rsocket`
+                    url: RSOCKET_URL
                 },
                 BufferEncoders)
         });
-        this.connectCallback = connectCallback;
-        this.messageCallback = messageCallback;
+        this.onConnect = onConnect;
+        this.onNextSensorData = onNextSensorData;
     }
 
     connect() {
@@ -45,14 +53,14 @@ export default class MessageService {
             (socket: ReactiveSocket<any, any>) => {
                 socket.requestStream({metadata})
                     .subscribe({
-                        onNext: (payload: Payload<any, any>) => this.messageCallback(null, JSON.parse(payload.data)),
-                        onError: (error: any) => this.messageCallback(error),
+                        onNext: (payload: Payload<any, any>) => this.onNextSensorData(null, JSON.parse(payload.data)),
+                        onError: (error: any) => this.onNextSensorData(error),
                         onSubscribe: (subscription: any) => subscription.request(MAX_STREAM_ID),
                     })
 
-                this.connectCallback(null);
+                this.onConnect(null);
             },
-            (error: any) => this.connectCallback(error),
+            (error: any) => this.onConnect(error),
         );
     }
 

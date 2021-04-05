@@ -13,7 +13,11 @@ services:
   web:
     build: reactive-web
     ports:
-      - "5000:5000"
+      - "3000:80"
+    depends_on:
+      - sensor-server
+    environment:
+      - SENSOR_SERVER_PORT=7000
 
   device-1:
     build: reactive-device

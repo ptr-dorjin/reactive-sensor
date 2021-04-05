@@ -11,7 +11,7 @@ interface IState {
     error: any,
     locations: Set<string>,
     // Used for Chart.js labels
-    chartLabels: string[],
+    chartLabels: Date[],
     // Chart.js limitation: size of data inside of each dataset should be = size of labels array
     chartDatasets: any[]
 }
@@ -31,19 +31,19 @@ class SensorDataComponent extends React.Component<IProps, IState> {
             chartDatasets: [],
         }
         this.service = new MessageService(
-            this.handleConnection.bind(this),
-            this.handleNewSensorData.bind(this)
+            this.onConnect.bind(this),
+            this.onNextSensorData.bind(this)
         )
     }
 
-    handleConnection(error: any) {
+    onConnect(error: any) {
         this.setState({
             connected: !error,
             error,
         });
     }
 
-    handleNewSensorData(error: any, sensorData: SensorData) {
+    onNextSensorData(error: any, sensorData: SensorData) {
         if (error) {
             console.error(error);
             this.setState({
@@ -54,15 +54,6 @@ class SensorDataComponent extends React.Component<IProps, IState> {
             console.log("Received", sensorData)
             this.appendToState(sensorData)
         }
-    }
-
-    private static getRandomColor() {
-        let rgb = [];
-        for (let i = 0; i < 3; i++) {
-            rgb.push(Math.round(Math.random() * 255));
-        }
-        let [r, g, b] = rgb;
-        return `rgba(${r}, ${g}, ${b}, 0.2)`;
     }
 
     public appendToState(sensorData: SensorData) {
@@ -85,7 +76,7 @@ class SensorDataComponent extends React.Component<IProps, IState> {
             })
         }
 
-        labels.push(sensorData.instant.toLocaleTimeString())
+        labels.push(sensorData.instant)
         datasets.forEach(dataset => {
             if (dataset.label === location)
                 dataset.data.push(sensorData.temperature)
@@ -98,6 +89,15 @@ class SensorDataComponent extends React.Component<IProps, IState> {
             chartLabels: labels.slice(-LIMIT_TIME_STAMPS),
             chartDatasets: datasets.slice(-LIMIT_TIME_STAMPS),
         })
+    }
+
+    private static getRandomColor() {
+        let rgb = [];
+        for (let i = 0; i < 3; i++) {
+            rgb.push(Math.round(Math.random() * 255));
+        }
+        let [r, g, b] = rgb;
+        return `rgba(${r}, ${g}, ${b}, 0.2)`;
     }
 
     componentDidMount() {

@@ -2,7 +2,7 @@ import React from 'react';
 import {Line} from "react-chartjs-2";
 
 interface IProps {
-    labels: string[],
+    labels: Date[],
     datasets: any[]
 }
 
@@ -11,6 +11,7 @@ let options = {
     scales: {
         xAxes: [
             {
+                type: "time",
                 ticks: {
                     autoSkipPadding: 50,
                     maxRotation: 0

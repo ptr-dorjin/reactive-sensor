@@ -89,3 +89,35 @@ It's safe to run several instances of `reactive-device` on one host, as they are
     curl http://localhost:8001/actuator/metrics/sensor.inbound.count
 
 . Then open: http://localhost:3000. Refresh the page if needed. If the `reactive-server` gets restarted, then you have to refresh the page manually.
+
+
+== When running
+
+`reactive-web` will show a chart like this, which is updated automatically when new sensor data is streamed in.
+All data from `reactive-device` s is randomized around some random baseline (see `SensorDataSender`).
+The web app displays data for the last 100 timestamps.
+
+image::doc-images/reactive-web-chart.png[]
+
+You should also see incoming messages in the browser console:
+
+----
+Connecting via RSocket to ws://localhost:7000/rsocket MessageService.ts:19:8
+Received
+Object { temperature: 12.2178, location: "backyard", instant: Date Sun Apr 04 2021 14:07:51 GMT-0500 (Central Daylight Time), id: null }
+SensorDataComponent.tsx:54:20
+Received
+Object { temperature: 50.6455, location: "room", instant: Date Sun Apr 04 2021 14:07:52 GMT-0500 (Central Daylight Time), id: null }
+SensorDataComponent.tsx:54:20
+Received
+Object { temperature: 34.711, location: "garage", instant: Date Sun Apr 04 2021 14:07:52 GMT-0500 (Central Daylight Time), id: null }
+SensorDataComponent.tsx:54:20
+----
+
+the same data in the `reactive-server` logs when it's coming in from `reactive-devices`:
+
+----
+sensor-server_1  | 2021-04-04 19:07:51.305 DEBUG 1 --- [or-http-epoll-5] p.s.r.server.service.SensorDataService   : Received SensorData(temperature=12.2178, location=backyard, instant=2021-04-04T19:07:51.224Z, id=null)
+sensor-server_1  | 2021-04-04 19:07:52.080 DEBUG 1 --- [or-http-epoll-6] p.s.r.server.service.SensorDataService   : Received SensorData(temperature=50.6455, location=room, instant=2021-04-04T19:07:52.052Z, id=null)
+sensor-server_1  | 2021-04-04 19:07:52.093 DEBUG 1 --- [or-http-epoll-7] p.s.r.server.service.SensorDataService   : Received SensorData(temperature=34.711, location=garage, instant=2021-04-04T19:07:52.063Z, id=null)
+----

@@ -6,7 +6,7 @@ It's implemented using:
 
 - create-react-app
 - React for UI
-- Typescript as a source code language
+- Typescript
 - RSocket Websocket JS client library
 - Chart.js
 - Yarn
