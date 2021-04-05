@@ -11,7 +11,7 @@ The project consists of 3 parts:
 
 image::docs/images/reactive-sensor-diagram.png[]
 
-Frameworks/technologies used:
+== Frameworks/technologies used:
 
 - Spring Boot
     * For the JVM backend. I'm using Kotlin in this project.
