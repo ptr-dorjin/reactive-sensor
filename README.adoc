@@ -9,6 +9,7 @@ The project consists of 3 parts:
 - `reactive-device` is a mini-module that emulates an IoT device and sends data to the server
 - `reactive-web` is a web app that consumes data from the server and displays it on UI
 
+image::docs/images/reactive-sensor-diagram.png[]
 
 Frameworks/technologies used:
 
@@ -35,7 +36,8 @@ Frameworks/technologies used:
 - Docker Compose
     * to run all parts together in one network
 
-NOTE: * for sensor data, one of NoSQL DBs is more suitable, but I'd like to use R2DBC in this project
+NOTE: - NoSQL DB is more suitable for sensor data, but I'd like to use R2DBC in this project +
+- For simplicity’s sake, I'm using embedded H2 database. In real world it should be something standalone instead.
 
 
 == Build
@@ -97,7 +99,7 @@ It's safe to run several instances of `reactive-device` on one host, as they are
 All data from `reactive-device` s is randomized around some random baseline (see `SensorDataSender`).
 The web app displays data for the last 100 timestamps.
 
-image::doc-images/reactive-web-chart.png[]
+image::docs/images/reactive-web-chart.png[]
 
 You should also see incoming messages in the browser console:
 
