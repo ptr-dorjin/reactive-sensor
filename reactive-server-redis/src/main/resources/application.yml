@@ -1,0 +1,25 @@
+#logging:
+#  level:
+    # prints out all executed SQL statements
+    #org.springframework.r2dbc: debug
+
+spring:
+  rsocket:
+    server:
+      port: ${SENSOR_SERVER_PORT:7000}
+      transport: websocket
+      mapping-path: /rsocket
+  redis:
+    host: localhost
+    port: 6379
+
+server:
+  port: 8000
+
+management:
+  server:
+    port: 8001
+  endpoints:
+    web:
+      exposure:
+        include: "metrics"

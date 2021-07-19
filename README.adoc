@@ -3,7 +3,7 @@
 This is a sample project that uses fully reactive approach.
 The project consists of 3 parts:
 
-- `reactive-server` is a microservice that
+- `reactive-server` (in 2 versions: `reactive-server-r2dbc` and `reactive-server-redis`) is a microservice that
 * receives an inbound stream of emulated sensor data from IoT devices (see `reactive-device`)
 * sends an outbound steam of the sensor data to other clients (see `reactive-web`)
 - `reactive-device` is a mini-module that emulates an IoT device and sends data to the server
@@ -18,8 +18,12 @@ image::docs/images/reactive-sensor-diagram.png[]
 - Spring WebFlux with Netty and Project Reactor under the hood
     * Netty is a non-blocking network application framework
     * Project Reactor is a reactive library that conforms with Reactive Streams specification. Project Reactor is based on Netty.
-- Persistence: Spring Data R2DBC via r2dbc H2 driver *
+- Data store version 1: Spring Data R2DBC via r2dbc H2 driver *
     * R2DBC is a modern non-blocking alternative to JDBC driver. It is based on Reactive Streams specification
+- Data store version 2: Spring Data Redis and Redis Streams
+    * Using reactive version of `spring-data-redis` with Lettuce connector
+    * Lettuce library supports reactive (non-blocking) API
+    * Redis Stream is an append-only data structure
 - Protocol: RSocket over WebSockets
     * RSocket protocol provides Reactive Streams semantics, as well
     * RSocket works on byte stream transports such as TCP, WebSockets, or Aeron. I'm using WebSockets in this project.

@@ -1,0 +1,45 @@
+= reactive-server-redis
+
+This is a backend part of this project implemented using Redis Streams.
+
+- `reactive-server-redis` module is a microservice that streams data in and out from 2 kind of clients:
+* an inbound stream of sensor data from IoT devices (see `reactive-device`)
+* an outbound steam of the sensor data to other clients (see `reactive-web`)
+* a client can be a combination of both, but not necessarily.
+
+Implemented with:
+
+- Spring Boot
+- Spring WebFlux with Netty and Project Reactor under the hood
+- Persistence: Spring Data Redis using Redis Streams
+- Protocol: RSocket over WebSockets
+- Kotlin coroutines
+- Spring Actuator
+
+== Configuration
+
+Env. variables:
+
+- `SENSOR_SERVER_PORT` is the port of `reactive-server-redis`.
+Default is 7000.
+
+== Run on local machine
+
+    java -jar reactive-server/build/libs/reactive-server-redis-VERSION.jar
+
+== Run in Docker container
+
+see `docker-compose.yml` in the parent directory
+
+== Spring Actuator
+
+This module exposes an Actuator endpoint, which shows the number of messages received from devices:
+
+    curl http://localhost:8001/actuator/metrics/sensor.inbound.count
+
+example output:
+
+    {"name":"sensor.inbound.count","description":null,"baseUnit":null,"measurements":[{"statistic":"COUNT","value":315.0}],"availableTags":[]}
+
+here COUNT value should increase over time when `reactive-device` is also running and sends messages to `reactive-server-redis`
+`

@@ -1,6 +1,6 @@
 = reactive-web
 
-`reactive-web` streams data from `reactive-server` using RSocket over WebSockets and displays the sensor data in a chart
+`reactive-web` streams data from `reactive-server`, i.e. either `reactive-server-r2dbc` or `reactive-server-redis`, using RSocket over WebSockets and displays the sensor data in a chart
 
 It's implemented using:
 
@@ -30,4 +30,4 @@ Then open http://localhost:3000
 
 == Notes
 
-I tried to use `RSocketResumableTransport` instead of low level `RSocketWebSocketClient`, but it's not that easy to make it work. This means that if the `reactive-server` gets restarted, then you have to refresh the browser page manually.
+I tried to use `RSocketResumableTransport` instead of low level `RSocketWebSocketClient`, but it's not that easy to make it work. This means that if the `reactive-server` (either `r2dbc` or `redis`) gets restarted, then you have to refresh the browser page manually.

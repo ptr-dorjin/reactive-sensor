@@ -29,7 +29,7 @@ class SensorDataSender(
     private var location = generateLocation()
     private var randomTempBase: Double = Random.nextDouble(50.0)
 
-    private final fun generateLocation(): String {
+    private fun generateLocation(): String {
         var location = deviceProperties.location
         if (location.isBlank()) {
             // generate random name, if not specified
@@ -44,7 +44,7 @@ class SensorDataSender(
         runBlocking {
             val rSocketRequester = rsocketBuilder.websocket(URI(serverUrl))
 
-            rSocketRequester.route("api.v1.sensors.stream")
+            rSocketRequester.route("api.v2.sensors.stream")
                 .dataWithType(flow {
                     emit(SensorData(randomTemperature(), location, Instant.now()))
                 })

@@ -18,7 +18,7 @@ if (!RSOCKET_PORT) {
 const RSOCKET_URL = `ws://${window.location.hostname}:${RSOCKET_PORT}/rsocket`;
 console.log("Connecting via RSocket to", RSOCKET_URL)
 
-const endpoint = "api.v1.sensors.stream";
+const endpoint = "api.v2.sensors.stream";
 
 export default class MessageService {
     client: RSocketClient<any, any>

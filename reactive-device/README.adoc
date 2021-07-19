@@ -3,7 +3,7 @@
 This is an IoT device part of this project.
 
 `reactive-device` module emulates a device.
-It's a simple app that sends a sensor data to `reactive-server` every N seconds.
+It's a simple app that sends a sensor data to `reactive-server`, i.e. either `reactive-server-r2dbc` or `reactive-server-redis`, every N seconds.
 
 Implemented with:
 
@@ -15,14 +15,14 @@ Implemented with:
 
 Env. variables:
 
-- `SENSOR_SERVER_HOST` is the host of `reactive-server`.
+- `SENSOR_SERVER_HOST` is the host of `reactive-server` (either `r2dbc` or `redis).
 Default is localhost.
-- `SENSOR_SERVER_PORT` is the port of `reactive-server`.
+- `SENSOR_SERVER_PORT` is the port of `reactive-server` (either `r2dbc` or `redis).
 Default is 7000.
 - `SENSOR_DEVICE_NAME` is the name of this device.
 Make them different for each deployed `reactive-device`.
 Default is "device-$randomInteger".
-- `SENSOR_DEVICE_INTERVAL` is the interval in millis in which this `reactive-device` sends data to `reactive-server`.
+- `SENSOR_DEVICE_INTERVAL` is the interval in millis in which this `reactive-device` sends data to `reactive-server` (either `r2dbc` or `redis`).
 Default is 5000.
 
 == Run on local machine
