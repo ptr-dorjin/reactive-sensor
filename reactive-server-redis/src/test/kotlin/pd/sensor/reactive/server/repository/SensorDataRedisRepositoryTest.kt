@@ -1,6 +1,8 @@
 package pd.sensor.reactive.server.repository
 
 import app.cash.turbine.test
+import com.palantir.docker.compose.DockerComposeExtension
+import com.palantir.docker.compose.connection.waiting.HealthChecks.toHaveAllPortsOpen
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
@@ -11,21 +13,32 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.extension.RegisterExtension
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest
+import org.springframework.test.context.ContextConfiguration
 import pd.sensor.domain.SensorData
 import java.time.Instant
 import kotlin.time.ExperimentalTime
 
+private val now: Instant = Instant.now()
 
 @FlowPreview
 @ExperimentalTime
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest
+@DataRedisTest
+@ContextConfiguration(classes = [RepositoryTestConfig::class])
 class SensorDataRedisRepositoryTest @Autowired constructor(
     private val sensorDataRedisRepository: SensorDataRedisRepository
 ) {
-    private val now: Instant = Instant.now()
+    companion object {
+        @JvmField
+        @RegisterExtension
+        val docker: DockerComposeExtension = DockerComposeExtension.builder()
+            .file("src/test/resources/docker-compose.yml")
+            .waitingForService("docker-redis-for-tests", toHaveAllPortsOpen())
+            .build()
+    }
 
     @BeforeAll
     fun beforeAll() {

@@ -1,7 +1,5 @@
 #logging:
 #  level:
-    # prints out all executed SQL statements
-    #org.springframework.r2dbc: debug
 
 spring:
   rsocket:

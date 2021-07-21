@@ -28,8 +28,8 @@ class SensorDataRedisRepository(
     private val log = LoggerFactory.getLogger(this::class.java)
 
     @FlowPreview
-    fun saveAll(entityStream: Flow<SensorData>): Flow<RecordId> {
-        return entityStream
+    fun saveAll(entityStream: Flow<SensorData>): Flow<RecordId> =
+        entityStream
             .map { toMapRecord(it) }
             .flatMapConcat {
                 log.debug("Saving record: $it")
@@ -38,20 +38,18 @@ class SensorDataRedisRepository(
                     .add(it)
                     .asFlow()
             }
-    }
 
     private fun toMapRecord(sensorData: SensorData): MapRecord<String, String, String> =
         StreamRecords.newRecord()
             .`in`(STREAM_KEY)
             .ofMap(sensorData.toMap())
 
-    fun readAll(): Flow<SensorData> {
-        return streamReceiver
+    fun readAll(): Flow<SensorData> =
+        streamReceiver
             .receive(StreamOffset.fromStart(STREAM_KEY))
             .asFlow()
             .onEach { log.debug("Received stream record: $it") }
             .map { it.value.fromMap() }
-    }
 
     /**
      * For tests only. Saves a single item. Main flow works with coroutines Flow

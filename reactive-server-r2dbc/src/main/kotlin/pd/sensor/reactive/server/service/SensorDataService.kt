@@ -20,20 +20,20 @@ class SensorDataService(
 
     fun stream(): Flow<SensorData> = sender
 
-    fun latest(): Flow<SensorData> =
+    fun read(): Flow<SensorData> =
         sensorDataR2dbcRepository.findLatest().mapToDomain()
 
-    fun after(since: Instant): Flow<SensorData> =
+    fun readAfter(since: Instant): Flow<SensorData> =
         sensorDataR2dbcRepository.findLatest(since).mapToDomain()
 
-    suspend fun post(inboundFlow: Flow<SensorData>) =
+    suspend fun write(inboundFlow: Flow<SensorData>) =
         inboundFlow
             .onEach {
                 inboundCounter.increment()
                 log.debug("Received $it")
                 sender.emit(it)
             }
-            .map { it.toEntity() }
+            .mapToEntity()
             .let { sensorDataR2dbcRepository.saveAll(it) }
             .collect()
 }

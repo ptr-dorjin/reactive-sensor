@@ -35,6 +35,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("app.cash.turbine:turbine:0.5.2")
+    testImplementation("com.palantir.docker.compose:docker-compose-junit-jupiter:1.7.0")
 }
 
 tasks.withType<KotlinCompile> {

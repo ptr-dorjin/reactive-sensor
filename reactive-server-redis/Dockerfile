@@ -14,4 +14,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 # Documenting ports to be exposed when running in Docker
 EXPOSE 8080
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","pd.sensor.reactive.server.SensorServerApplicationKt"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","pd.sensor.reactive.server.SensorRedisApplicationKt"]

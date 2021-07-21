@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  sensor-server:
+  docker-redis-for-tests:
     image: redis
     ports:
-      - "7000:7000"
+      - "6379:6379"

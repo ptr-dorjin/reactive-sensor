@@ -22,10 +22,13 @@ import org.springframework.messaging.rsocket.retrieveFlow
 import pd.sensor.domain.SensorData
 import pd.sensor.reactive.server.repository.SensorDataEntity
 import pd.sensor.reactive.server.repository.SensorDataR2dbcRepository
+import reactor.core.publisher.Hooks
 import java.net.URI
 import java.time.Instant
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
+
+val now: Instant = Instant.now()
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -36,10 +39,10 @@ class SensorR2dbcApplicationTests(
     @LocalServerPort val serverPort: Int
 ) {
 
-    val now: Instant = Instant.now()
-
     @BeforeEach
     fun setUp() {
+        Hooks.onErrorDropped { /* ignore. A workaround for https://github.com/rsocket/rsocket-java/issues/1018 */ }
+
         runBlocking {
             val secondBeforeNow = now.minusSeconds(1)
             val twoSecondBeforeNow = now.minusSeconds(2)

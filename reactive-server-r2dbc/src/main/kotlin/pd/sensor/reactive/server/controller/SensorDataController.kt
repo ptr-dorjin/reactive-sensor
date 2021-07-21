@@ -14,13 +14,13 @@ import pd.sensor.reactive.server.service.SensorDataService
 class SensorDataController(val sensorDataService: SensorDataService) {
 
     @MessageMapping("stream")
-    suspend fun receive(@Payload inboundFlow: Flow<SensorData>) =
-        sensorDataService.post(inboundFlow)
+    suspend fun write(@Payload inboundFlow: Flow<SensorData>) =
+        sensorDataService.write(inboundFlow)
 
     @MessageMapping("stream")
-    fun send(): Flow<SensorData> = sensorDataService
+    fun read(): Flow<SensorData> = sensorDataService
         .stream()
         .onStart {
-            emitAll(sensorDataService.latest())
+            emitAll(sensorDataService.read())
         }
 }

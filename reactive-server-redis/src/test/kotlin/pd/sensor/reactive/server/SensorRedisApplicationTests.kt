@@ -1,13 +1,19 @@
 package pd.sensor.reactive.server
 
 import app.cash.turbine.test
+import com.palantir.docker.compose.DockerComposeExtension
+import com.palantir.docker.compose.connection.waiting.HealthChecks
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.extension.RegisterExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -16,10 +22,13 @@ import org.springframework.messaging.rsocket.dataWithType
 import org.springframework.messaging.rsocket.retrieveFlow
 import pd.sensor.domain.SensorData
 import pd.sensor.reactive.server.repository.SensorDataRedisRepository
+import reactor.core.publisher.Hooks
 import java.net.URI
 import java.time.Instant
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
+
+val now: Instant = Instant.now()
 
 @FlowPreview
 @SpringBootTest(
@@ -31,8 +40,14 @@ class SensorRedisApplicationTests(
     @Autowired val sensorDataRedisRepository: SensorDataRedisRepository,
     @LocalServerPort val serverPort: Int
 ) {
-
-    val now: Instant = Instant.now()
+    companion object {
+        @JvmField
+        @RegisterExtension
+        val docker: DockerComposeExtension = DockerComposeExtension.builder()
+            .file("src/test/resources/docker-compose.yml")
+            .waitingForService("docker-redis-for-tests", HealthChecks.toHaveAllPortsOpen())
+            .build()
+    }
 
     @BeforeAll
     fun beforeAll() {
@@ -41,15 +56,18 @@ class SensorRedisApplicationTests(
 
     @BeforeEach
     fun setUp() {
+        Hooks.onErrorDropped { /* ignore. A workaround for https://github.com/rsocket/rsocket-java/issues/1018 */ }
+
         runBlocking {
             val secondBeforeNow = now.minusSeconds(1)
             val twoSecondBeforeNow = now.minusSeconds(2)
-            val bodyFlow = flow {
-                emit(SensorData(21.2, "room", twoSecondBeforeNow))
-                emit(SensorData(20.6, "room", secondBeforeNow))
-                emit(SensorData(19.3, "room", now))
-            }
-            sensorDataRedisRepository.saveAll(bodyFlow).toList()
+            sensorDataRedisRepository.saveAll(
+                flow {
+                    emit(SensorData(21.2, "room", twoSecondBeforeNow))
+                    emit(SensorData(20.6, "room", secondBeforeNow))
+                    emit(SensorData(19.3, "room", now))
+                })
+                .toList()
         }
     }
 
@@ -57,7 +75,6 @@ class SensorRedisApplicationTests(
     fun afterEach() {
         runBlocking { sensorDataRedisRepository.deleteAll() }
     }
-
 
     @FlowPreview
     @ExperimentalTime
