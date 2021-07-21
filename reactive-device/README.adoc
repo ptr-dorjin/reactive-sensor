@@ -17,7 +17,7 @@ Env. variables:
 
 - `SENSOR_SERVER_HOST` is the host of `reactive-server` (either `r2dbc` or `redis).
 Default is localhost.
-- `SENSOR_SERVER_PORT` is the port of `reactive-server` (either `r2dbc` or `redis).
+- `SENSOR_SERVER_PORT` is the RSocket port of `reactive-server` (either `r2dbc` or `redis).
 Default is 7000.
 - `SENSOR_DEVICE_NAME` is the name of this device.
 Make them different for each deployed `reactive-device`.
@@ -31,6 +31,6 @@ Default is 5000.
 
 It is safe to deploy several instances of `reactive-device` on one host.
 
-== Run in Docker container
+== Run in a Docker container
 
 see `docker-compose.yml` in the parent directory

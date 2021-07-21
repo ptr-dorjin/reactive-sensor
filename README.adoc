@@ -14,48 +14,66 @@ image::docs/images/reactive-sensor-diagram.png[]
 == Frameworks/technologies used:
 
 - Spring Boot
-    * For the JVM backend. I'm using Kotlin in this project.
+* For the JVM backend.
+I'm using Kotlin in this project.
 - Spring WebFlux with Netty and Project Reactor under the hood
-    * Netty is a non-blocking network application framework
-    * Project Reactor is a reactive library that conforms with Reactive Streams specification. Project Reactor is based on Netty.
+* Netty is a non-blocking network application framework
+* Project Reactor is a reactive library that conforms with Reactive Streams specification.
+Project Reactor uses Netty as a non-blocking IO.
 - Data store version 1: Spring Data R2DBC via r2dbc H2 driver *
-    * R2DBC is a modern non-blocking alternative to JDBC driver. It is based on Reactive Streams specification
+* R2DBC is a modern non-blocking alternative to JDBC driver.
+It is based on Reactive Streams specification
 - Data store version 2: Spring Data Redis and Redis Streams
-    * Using reactive version of `spring-data-redis` with Lettuce connector
-    * Lettuce library supports reactive (non-blocking) API
-    * Redis Stream is an append-only data structure
+* Using reactive version of `spring-data-redis` with Lettuce connector.
+* Lettuce library supports reactive (non-blocking) API.
+* Redis Stream is an append-only data structure.
 - Protocol: RSocket over WebSockets
-    * RSocket protocol provides Reactive Streams semantics, as well
-    * RSocket works on byte stream transports such as TCP, WebSockets, or Aeron. I'm using WebSockets in this project.
+* RSocket protocol provides Reactive Streams semantics, as well
+* RSocket works on byte stream transports such as TCP, WebSockets, or Aeron.
+I'm using WebSockets in this project.
 - Kotlin's coroutines
-    * Could've used Project Reactor's Flux/Mono, but since I'm using Kotlin, I decided to use Kotlin Flow.
+* Could've used Project Reactor's Flux/Mono, but since I'm using Kotlin, I decided to use Kotlin Flow.
 - Gradle for building the backend
 - React.js
-    * just for UI components. Nothing to do with Reactive approach though :)
+* just for UI components.
+Nothing to do with Reactive approach though :)
 - rsocket-websocket JS client
 - Typescript
 - Chart.js
-    * to draw the sensor data nicely
+* to draw the sensor data nicely
 - Yarn for building the frontend
 - Docker Compose
-    * to run all parts together in one network
+* to run all parts together in one network
 
 NOTE: - NoSQL DB is more suitable for sensor data, but I'd like to use R2DBC in this project +
-- For simplicity’s sake, I'm using embedded H2 database. In real world it should be something standalone instead.
-
+- For simplicity’s sake, I'm using embedded H2 database.
+In real world it should be something standalone instead.
 
 == Build
 
-    ./gradlew build
+    ./gradlew clean test bootJar
 
 == Run on a local machine (without Docker)
 
 . Start the server:
++
+one option is to use R2DBC version:
 
-    java -jar reactive-server/build/libs/reactive-server-VERSION.jar
+    java -jar reactive-server-r2dbc/build/libs/reactive-server-r2dbc-VERSION.jar
+
++
+alternatively, use Redis version
+
+    docker pull redis
+    # 1st run
+    docker run --name redis -p 6379:6379 -d redis
+    # for the 2nd and subsequent runs, just:
+    docker start redis
+    # start the app:
+    java -jar reactive-server-redis/build/libs/reactive-server-redis-VERSION.jar
 
 - All jars are executable thanks to Spring Boot.
-- By default, `reactive-server` will start Netty RSocket on port 7000.
+- By default, `reactive-server` (either `r2dbc` or `redis` version) will start Netty RSocket on port 7000.
 - It also exposes Spring Actuator on port 8001.
 
 . Then start several instances of `reactive-device` in different terminals:
@@ -64,7 +82,8 @@ NOTE: - NoSQL DB is more suitable for sensor data, but I'd like to use R2DBC in 
 +
 It's safe to run several instances of `reactive-device` on one host, as they are not exposing any ports.
 
-. Monitor Spring Actuator from another terminal. The value should increase over time:
+. Monitor Spring Actuator from another terminal.
+The value should increase over time:
 
     curl http://localhost:8001/actuator/metrics/sensor.inbound.count
 
@@ -82,7 +101,7 @@ It's safe to run several instances of `reactive-device` on one host, as they are
     docker-compose build
     docker-compose up
 
-- This will start 1 container with `reactive-server`
+- This will start 1 container with `reactive-server` (either `r2dbc` or `redis` version)
 - Plus 3 containers with `reactive-device`
 - Plus one container with `reactive-web`
 - All 5 containers are in one Docker network
@@ -90,12 +109,13 @@ It's safe to run several instances of `reactive-device` on one host, as they are
 - Exposes RSocket port in `reactive-server`, so it is accessible by JS from the browser.
 - For details, see `docker-compose.yml`.
 
-. Monitor Spring Actuator from another terminal. The value should increase over time:
+. Monitor Spring Actuator from another terminal.
+The value should increase over time:
 
     curl http://localhost:8001/actuator/metrics/sensor.inbound.count
 
-. Then open: http://localhost:3000. Refresh the page if needed. If the `reactive-server` gets restarted, then you have to refresh the page manually.
-
+. Then open: http://localhost:3000. Refresh the page if needed.
+If the `reactive-server` gets restarted, then you have to refresh the page manually.
 
 == When running
 

@@ -11,7 +11,7 @@ Implemented with:
 
 - Spring Boot
 - Spring WebFlux with Netty and Project Reactor under the hood
-- Persistence: Spring Data R2DBC via r2dbc H2 driver *
+- Data store: Spring Data R2DBC via r2dbc H2 driver *
 - Protocol: RSocket over WebSockets
 - Kotlin coroutines
 - Spring Actuator
@@ -22,14 +22,14 @@ NOTE: for sensors data, one of NoSQL DBs is more suitable, but I'd like to use R
 
 Env. variables:
 
-- `SENSOR_SERVER_PORT` is the port of `reactive-server-r2dbc`.
+- `SENSOR_SERVER_PORT` is the RSocket port of `reactive-server-r2dbc`.
 Default is 7000.
 
 == Run on local machine
 
     java -jar reactive-server/build/libs/reactive-server-r2dbc-VERSION.jar
 
-== Run in Docker container
+== Run in a Docker container
 
 see `docker-compose.yml` in the parent directory
 

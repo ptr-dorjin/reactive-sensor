@@ -11,7 +11,7 @@ Implemented with:
 
 - Spring Boot
 - Spring WebFlux with Netty and Project Reactor under the hood
-- Persistence: Spring Data Redis using Redis Streams
+- Data store: Spring Data Redis using Redis Streams
 - Protocol: RSocket over WebSockets
 - Kotlin coroutines
 - Spring Actuator
@@ -20,14 +20,23 @@ Implemented with:
 
 Env. variables:
 
-- `SENSOR_SERVER_PORT` is the port of `reactive-server-redis`.
+- `SENSOR_SERVER_PORT` is the RSocket port of `reactive-server-redis`.
 Default is 7000.
 
 == Run on local machine
 
+.Run a docker container with Redis:
+----
+docker pull redis
+# 1st run
+docker run --name redis -p 6379:6379 -d redis
+# for the 2nd and subsequent runs, just:
+docker start redis
+----
+
     java -jar reactive-server/build/libs/reactive-server-redis-VERSION.jar
 
-== Run in Docker container
+== Run in a Docker container
 
 see `docker-compose.yml` in the parent directory
 

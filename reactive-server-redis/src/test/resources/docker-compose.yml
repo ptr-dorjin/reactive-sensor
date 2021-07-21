@@ -3,4 +3,4 @@ services:
   docker-redis-for-tests:
     image: redis
     ports:
-      - "6379:6379"
+      - "6381:6379"

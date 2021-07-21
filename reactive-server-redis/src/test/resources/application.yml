@@ -9,7 +9,7 @@ spring:
       mapping-path: /rsocket
   redis:
     host: localhost
-    port: ${REDIS_PORT:6379}
+    port: ${REDIS_PORT:6381}
 
 server:
   port: 8000
