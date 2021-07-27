@@ -73,7 +73,7 @@ alternatively, use Redis version
     java -jar reactive-server-redis/build/libs/reactive-server-redis-VERSION.jar
 
 - All jars are executable thanks to Spring Boot.
-- By default, `reactive-server` (either `r2dbc` or `redis` version) will start Netty RSocket on port 7000.
+- By default, `reactive-server` (either `r2dbc` or `redis` version) will start Netty on RSocket port 7000.
 - It also exposes Spring Actuator on port 8001.
 
 . Then start several instances of `reactive-device` in different terminals:
