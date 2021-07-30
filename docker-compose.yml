@@ -1,9 +1,9 @@
 version: "3.9"
 services:
   redis:
-    image: redis
+    image: redis:alpine
     ports:
-      - 6379:6379
+      - "6379:6379"
 
   sensor-server:
     build: reactive-server-redis
@@ -16,6 +16,7 @@ services:
       - redis
     environment:
       - SENSOR_SERVER_PORT=7000
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
       - JAVA_TOOL_OPTIONS=-Dlogging.level.pd.sensor\=debug
 
