@@ -1,6 +1,6 @@
 = Fully Reactive sample project
 
-This is a sample project that uses fully reactive approach.
+This is a sample/example project that uses fully reactive approach.
 The project consists of 3 parts:
 
 - `reactive-server` (in 2 versions: `reactive-server-r2dbc` and `reactive-server-redis`) is a microservice that
@@ -9,7 +9,11 @@ The project consists of 3 parts:
 - `reactive-device` is a mini-module that emulates an IoT device and sends data to the server
 - `reactive-web` is a web app that consumes data from the server and displays it on UI
 
-image::docs/images/reactive-sensor-diagram.png[]
+.Version with R2DBC
+image::docs/images/reactive-sensor-diagram-r2dbc.png[]
+
+.Version with Redis
+image::docs/images/reactive-sensor-diagram-redis.png[]
 
 == Frameworks/technologies used:
 
