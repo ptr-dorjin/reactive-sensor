@@ -27,6 +27,7 @@ services:
     depends_on:
       - sensor-server
     environment:
+      - SENSOR_SERVER_HOST=localhost
       - SENSOR_SERVER_PORT=7000
 
   device-1:

@@ -10,12 +10,17 @@ import RSocketWebSocketClient from 'rsocket-websocket-client';
 import {ReactiveSocket} from "rsocket-types";
 import {Payload} from "rsocket-types/ReactiveSocketTypes";
 
+let RSOCKET_HOST = (window as any)._env_?.SENSOR_SERVER_HOST
+if (!RSOCKET_HOST) {
+    RSOCKET_HOST = window.location.hostname
+    console.log("Defaulting to host", RSOCKET_HOST)
+}
 let RSOCKET_PORT = (window as any)._env_?.SENSOR_SERVER_PORT
 if (!RSOCKET_PORT) {
     RSOCKET_PORT = "7000"
     console.log("Defaulting to port", RSOCKET_PORT)
 }
-const RSOCKET_URL = `ws://${window.location.hostname}:${RSOCKET_PORT}/rsocket`;
+const RSOCKET_URL = `ws://${RSOCKET_HOST}:${RSOCKET_PORT}/rsocket`;
 console.log("Connecting via RSocket to", RSOCKET_URL)
 
 const endpoint = "api.v2.sensors.stream";

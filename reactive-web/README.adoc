@@ -13,14 +13,23 @@ It's implemented using:
 
 == Build
 
-. Install npm and yarn globally, if not yet
+. Install npm and yarn globally, if not yet, and then all dependencies
 
     sudo apt install npm
     sudo npm install -g yarn
+    yarn install
 
 . Build
 
     yarn build
+
+== Configuration
+
+Env. variables:
+
+- `SENSOR_SERVER_HOST` is the server host where `reactive-server-r2dbc` or `reactive-server-redis` is running. Default is `localhost`
+- `SENSOR_SERVER_PORT` is the RSocket port of the `reactive-server`.
+Default is `7000`.
 
 == Run locally
 
