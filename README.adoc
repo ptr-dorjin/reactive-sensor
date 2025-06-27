@@ -1,4 +1,4 @@
-WARNING: This repo is depreacated. There are CVEs in the in `reactive-web` submodule which can be fixed by updating yarn dependencies, but I don't have time for this.
+WARNING: This repo is deprecated. There are CVEs in the in `reactive-web` submodule which can be fixed by updating yarn dependencies, but I don't have time for this.
 
 = Fully Reactive sample project
 
